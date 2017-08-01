@@ -122,7 +122,11 @@ class NoteListViewController: UIViewController,UITableViewDataSource,NoteViewCon
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         let note = self.notes[indexPath.row]
         cell.textLabel?.text = note.text
-        cell.imageView?.image = note.image()
+        cell.imageView?.image = note.thumbnailImage()
+        cell.imageView?.layer.cornerRadius = 20
+        cell.imageView?.layer.borderWidth = 0.5
+        cell.imageView?.layer.borderColor = UIColor.darkGray.cgColor
+        cell.imageView?.clipsToBounds = true
         cell.showsReorderControl = true
         return cell
     }
