@@ -42,43 +42,46 @@ class Note:NSManagedObject{
         }
         return nil
     }
-    
-//    func drawImage() -> UIImage? {
-//        
-//        var smallImage = self.image()
-//        if (image() != nil) {
-//            return nil
-//        }
-////        print("12341234\(smallImage)")
-//        let thumbnailSize = CGSize(width: 36, height: 36)
-//        let scale = UIScreen.main.scale
-//        UIGraphicsBeginImageContextWithOptions(thumbnailSize, false, scale)
-//        
-//        let widthRatio = thumbnailSize.width/(smallImage?.size.width)!
-//        let heightRatio = thumbnailSize.height/(smallImage?.size.height)!
-//        
-//        UIGraphicsBeginImageContext(CGSize(width:widthRatio, height:heightRatio))
-//        smallImage?.draw(in: CGRect(x:0, y:0, width:widthRatio , height:heightRatio))
-//        smallImage = UIGraphicsGetImageFromCurrentImageContext()
-//        UIGraphicsEndImageContext()
-//        
-//        return smallImage
-//    }
 
-    func imageWithImage (sourceImage:UIImage, scaledToWidth: CGFloat) -> UIImage {
+    func drawImage() -> UIImage? {
         
-        let oldWidth = sourceImage.size.width
-        let scaleFactor = scaledToWidth / oldWidth
-        
-        let newHeight = sourceImage.size.height * scaleFactor
-        let newWidth = oldWidth * scaleFactor
-        
-        UIGraphicsBeginImageContext(CGSize(width:newWidth, height:newHeight))
-        sourceImage.draw(in: CGRect(x:0, y:0, width:newWidth, height:newHeight))
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return newImage!
+        if let image = self.image(){
+            
+            let thumbnailSize = CGSize(width: 36, height: 36)
+            let scale = UIScreen.main.scale
+            UIGraphicsBeginImageContextWithOptions(thumbnailSize, false, scale)
+            
+            let widthRatio = thumbnailSize.width/(image.size.width)
+            let heightRatio = thumbnailSize.height/(image.size.height)
+            let ratio = max(widthRatio, heightRatio)
+            
+            let imageSize = CGSize(width: image.size.width*ratio, height: image.size.height*ratio)
+            
+            image.draw(in: CGRect(dictionaryRepresentation: (x: -(imageSize.width-thumbnailSize.width)/2.0, y: -(imageSize.height-thumbnailSize.height)/2.0, width: imageSize.width, height: imageSize.height) as! CFDictionary)!)
+            
+            let smallImage  = UIGraphicsGetImageFromCurrentImageContext()
+
+            UIGraphicsEndImageContext()
+            return smallImage
+        }else{
+            return nil
+        }
     }
+
+//    func imageWithImage (sourceImage:UIImage, scaledToWidth: CGFloat) -> UIImage {
+//        
+//        let oldWidth = sourceImage.size.width
+//        let scaleFactor = scaledToWidth / oldWidth
+//        
+//        let newHeight = sourceImage.size.height * scaleFactor
+//        let newWidth = oldWidth * scaleFactor
+//        
+//        UIGraphicsBeginImageContext(CGSize(width:newWidth, height:newHeight))
+//        sourceImage.draw(in: CGRect(x:0, y:0, width:newWidth, height:newHeight))
+//        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+//        UIGraphicsEndImageContext()
+//        return newImage!
+//    }
 }
 
 //CGSize thumbnailSize = CGSizeMake(36, 36); //設定縮圖大小
