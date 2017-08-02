@@ -47,7 +47,7 @@ class Note:NSManagedObject{
         
         if let image = self.image(){
             
-            let thumbnailSize = CGSize(width: 50, height: 50)
+            let thumbnailSize = CGSize(width: 60, height: 60)
             let scale = UIScreen.main.scale
             UIGraphicsBeginImageContextWithOptions(thumbnailSize, false, scale)
             

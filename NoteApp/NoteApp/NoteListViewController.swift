@@ -123,7 +123,7 @@ class NoteListViewController: UIViewController,UITableViewDataSource,NoteViewCon
         let note = self.notes[indexPath.row]
         cell.textLabel?.text = note.text
         cell.imageView?.image = note.thumbnailImage()
-        cell.imageView?.layer.cornerRadius = 20
+        cell.imageView?.layer.cornerRadius = 30
         cell.imageView?.layer.borderWidth = 0.5
         cell.imageView?.layer.borderColor = UIColor.darkGray.cgColor
         cell.imageView?.clipsToBounds = true
