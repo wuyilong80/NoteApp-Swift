@@ -67,7 +67,9 @@ class NoteListViewController: UIViewController,UITableViewDataSource,NoteViewCon
         moc.performAndWait {
             note = NSEntityDescription.insertNewObject(forEntityName: "Note", into: moc) as! Note
         }
+        note.titleText = "New Title"
         note.text = "New Note"
+//        note.placeText = "Location"
         do{
             try self.saveToCoreData()
             //self.notes.append(note)
@@ -121,7 +123,7 @@ class NoteListViewController: UIViewController,UITableViewDataSource,NoteViewCon
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         let note = self.notes[indexPath.row]
-        cell.textLabel?.text = note.text
+        cell.textLabel?.text = note.titleText
         cell.imageView?.image = note.thumbnailImage()
         cell.imageView?.layer.cornerRadius = 30
         cell.imageView?.layer.borderWidth = 0.5

@@ -12,8 +12,9 @@ import CoreData
 
 //class Note: NSObject,NSCoding {
 class Note:NSManagedObject{
+    @NSManaged var titleText: String?
     @NSManaged var text: String?
-    //    var image: UIImage?
+//    @NSManaged var placeText: String?
     @NSManaged var imageName: String?
     
 //    required init?(coder aDecoder: NSCoder) {

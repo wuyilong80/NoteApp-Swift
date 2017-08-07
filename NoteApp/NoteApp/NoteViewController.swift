@@ -14,7 +14,9 @@ protocol NoteViewControllerDelegate: class {
 
 class NoteViewController: UIViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate {
 
+    @IBOutlet weak var titleTextView: UITextView!
     @IBOutlet weak var textView: UITextView!
+//    @IBOutlet weak var placeTextView: UITextView!
     @IBOutlet weak var imageView: UIImageView!
     var isNewImage :Bool = false
     var note: Note?
@@ -22,7 +24,13 @@ class NoteViewController: UIViewController,UIImagePickerControllerDelegate,UINav
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.textView.layer.borderColor = UIColor.black.cgColor
+        self.textView.layer.borderWidth = 1
+        
+        self.titleTextView.text = self.note?.titleText
         self.textView.text = self.note?.text
+//        self.placeTextView.text = self.note?.placeText
         self.imageView.image = self.note?.image()
     }
 
@@ -33,7 +41,9 @@ class NoteViewController: UIViewController,UIImagePickerControllerDelegate,UINav
     
     //MARK: IBAction
     @IBAction func done(_ sender: Any) {
+        self.note?.titleText = self.titleTextView.text
         self.note?.text = self.textView.text
+//        self.note?.placeText = self.placeTextView.text
 //        self.note?.image = self.imageView.image
         if self.isNewImage{
         
