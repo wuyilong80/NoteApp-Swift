@@ -12,12 +12,14 @@ protocol NoteViewControllerDelegate: class {
     func didFinishUpdateNote(note: Note)
 }
 
-class NoteViewController: UIViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate {
+class NoteViewController: UIViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextViewDelegate {
 
     @IBOutlet weak var titleTextView: UITextView!
     @IBOutlet weak var textView: UITextView!
-//    @IBOutlet weak var placeTextView: UITextView!
+    @IBOutlet weak var placeTextView: UITextView!
     @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var mapButton: UIButton!
+    
     var isNewImage :Bool = false
     var note: Note?
     weak var delegate: NoteViewControllerDelegate?
@@ -27,11 +29,27 @@ class NoteViewController: UIViewController,UIImagePickerControllerDelegate,UINav
         
         self.textView.layer.borderColor = UIColor.black.cgColor
         self.textView.layer.borderWidth = 1
+        self.textView.layer.cornerRadius = 10
+        
+        self.titleTextView.layer.borderWidth = 0.5
+        self.titleTextView.layer.borderColor = UIColor.gray.cgColor
+        self.titleTextView.layer.cornerRadius = 5
+        
+        self.placeTextView.layer.borderWidth = 0.5
+        self.placeTextView.layer.borderColor = UIColor.gray.cgColor
+        self.placeTextView.layer.cornerRadius = 5
         
         self.titleTextView.text = self.note?.titleText
         self.textView.text = self.note?.text
-//        self.placeTextView.text = self.note?.placeText
+        self.placeTextView.text = self.note?.placeText
         self.imageView.image = self.note?.image()
+        
+        textView.delegate = self
+        titleTextView.delegate = self
+        placeTextView.delegate = self
+        
+        let mapImage = UIImage(named: "mapicon")
+        mapButton.setImage(mapImage, for: UIControlState.normal)
     }
 
     override func didReceiveMemoryWarning() {
@@ -39,11 +57,31 @@ class NoteViewController: UIViewController,UIImagePickerControllerDelegate,UINav
         // Dispose of any resources that can be recreated.
     }
     
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if (text == "\n") {
+            textView.resignFirstResponder()
+            return false
+        }
+        return true
+    }
+    
+//    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        if (textView.text == "\n"){
+//            textView.resignFirstResponder()
+//        }
+//        if (titleTextView.text == "\n") {
+//            titleTextView.resignFirstResponder()
+//        }
+//        if (placeTextView.text == "\n") {
+//            placeTextView.resignFirstResponder()
+//        }
+//    }
+    
     //MARK: IBAction
     @IBAction func done(_ sender: Any) {
         self.note?.titleText = self.titleTextView.text
         self.note?.text = self.textView.text
-//        self.note?.placeText = self.placeTextView.text
+        self.note?.placeText = self.placeTextView.text
 //        self.note?.image = self.imageView.image
         if self.isNewImage{
         
@@ -76,6 +114,9 @@ class NoteViewController: UIViewController,UIImagePickerControllerDelegate,UINav
         present(pickerController, animated: true, completion: nil)
     }
     
+    @IBAction func mapButtonPress(_ sender: Any) {
+    }
+   
     //MARK: UIImagePickerControllerDelegate
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
@@ -85,6 +126,7 @@ class NoteViewController: UIViewController,UIImagePickerControllerDelegate,UINav
         self.isNewImage = true
         dismiss(animated: true, completion: nil)
     }
+    
     /*
     // MARK: - Navigation
 

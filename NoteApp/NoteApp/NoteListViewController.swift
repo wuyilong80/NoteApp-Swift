@@ -69,7 +69,7 @@ class NoteListViewController: UIViewController,UITableViewDataSource,NoteViewCon
         }
         note.titleText = "New Title"
         note.text = "New Note"
-//        note.placeText = "Location"
+        note.placeText = "New Location"
         do{
             try self.saveToCoreData()
             //self.notes.append(note)
